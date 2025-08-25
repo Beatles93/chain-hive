@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Basic reset for a plain white page */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
