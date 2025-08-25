@@ -10,7 +10,7 @@
 
   color-scheme: light;
   color: #213547;
-  background-color: #ffffff;
+  background-color: rgb(244 245 246);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,6 +22,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: rgb(244 245 246);
 }
 
 /* Remove template-specific styles */
