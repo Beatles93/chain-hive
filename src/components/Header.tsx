@@ -1,4 +1,5 @@
 import React from 'react'
+import { ConnectWallet } from "@thirdweb-dev/react"
 
 const brand = {
   navy: '#0F2A4A',
@@ -11,7 +12,7 @@ export default function Header(): React.ReactElement {
     <header
       className="sticky top-0 z-50 w-full bg-white relative"
       style={{ 
-        height: 65,
+        height: 70,
         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         borderBottom: '2px solid #e5e7eb'
       }}
@@ -28,15 +29,15 @@ export default function Header(): React.ReactElement {
             />
           </a>
         </div>
+
         {/* Right: connect button */}
         <div className="flex items-center ml-auto">
-        <button 
-          className="px-6 py-2 rounded-lg font-semibold text-white shadow-md"
-          style={{ backgroundColor: brand.navy }}
-          onClick={() => alert('Connect button clicked!')}
-        >
-          Connect
-        </button>
+          <ConnectWallet 
+            theme="light" 
+            btnTitle="Connect" 
+            className="px-6 py-2 rounded-lg font-semibold shadow-md bg-white text-[#213547] border-4 border-[#213547]"
+            
+          />
         </div>
       </div>
 
@@ -47,4 +48,4 @@ export default function Header(): React.ReactElement {
       />
     </header>
   )
-} 
+}
