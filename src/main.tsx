@@ -1,13 +1,29 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { ThirdwebProvider } from "@thirdweb-dev/react"
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.tsx';
+import {
+  ThirdwebProvider,
+  metamaskWallet,
+  coinbaseWallet,
+  walletConnect,
+  embeddedWallet,
+} from "@thirdweb-dev/react";
+import { Ethereum } from "@thirdweb-dev/chains";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThirdwebProvider activeChain="ethereum"> 
+    <ThirdwebProvider
+      activeChain={Ethereum}
+      theme="light"
+      supportedWallets={[
+        metamaskWallet(),
+        coinbaseWallet(),
+        walletConnect(),
+        embeddedWallet(),
+      ]}
+    >
       <App />
     </ThirdwebProvider>
   </StrictMode>,
-)
+);
