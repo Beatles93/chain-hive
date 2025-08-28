@@ -9,12 +9,13 @@ import {
   walletConnect,
   embeddedWallet,
 } from "@thirdweb-dev/react";
-import { Ethereum } from "@thirdweb-dev/chains";
+import { Ethereum,Polygon, Base } from "@thirdweb-dev/chains";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThirdwebProvider
       activeChain={Ethereum}
+      supportedChains={[Ethereum, Polygon, Base]}
       theme="light"
       supportedWallets={[
         metamaskWallet(),
