@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
@@ -9,13 +9,18 @@ import {
   walletConnect,
   embeddedWallet,
 } from "@thirdweb-dev/react";
-import { Ethereum,Polygon, Base } from "@thirdweb-dev/chains";
+import type { Chain } from "@thirdweb-dev/chains"; 
+import { Ethereum, Polygon, Base } from "@thirdweb-dev/chains"; 
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+const chains: Chain[] = [Ethereum, Polygon, Base];
+
+function Root() {
+  const [activeChain, setActiveChain] = useState<Chain>(Ethereum);
+
+  return (
     <ThirdwebProvider
-      activeChain={Ethereum}
-      supportedChains={[Ethereum, Polygon, Base]}
+      activeChain={activeChain}
+      supportedChains={chains}
       theme="light"
       supportedWallets={[
         metamaskWallet(),
@@ -24,7 +29,13 @@ createRoot(document.getElementById('root')!).render(
         embeddedWallet(),
       ]}
     >
-      <App />
+      <App activeChain={activeChain} setActiveChain={setActiveChain} chains={chains} />
     </ThirdwebProvider>
-  </StrictMode>,
+  );
+}
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <Root />
+  </StrictMode>
 );
