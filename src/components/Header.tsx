@@ -70,9 +70,10 @@ export default function Header({ chains, activeChain, setActiveChain }: HeaderPr
                       setActiveChain(chain);
                       setOpen(false);
                     }}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-100"
                   >
-                    {chain.name}
+                    <span>{chain.name}</span>
+                    {chain.slug === activeChain.slug && <span>✔️</span>}
                   </button>
                 ))}
               </div>
@@ -96,3 +97,4 @@ export default function Header({ chains, activeChain, setActiveChain }: HeaderPr
     </header>
   );
 }
+
