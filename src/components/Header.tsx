@@ -73,7 +73,11 @@ export default function Header({ chains }: HeaderProps) {
           <div className="relative">
             <button
               onClick={() => setOpen(!open)}
-              className="px-4 py-2 border rounded-md bg-white text-[#213547] border-[#213547] font-medium shadow-md flex items-center gap-2"
+              className="px-4 py-2 rounded-md bg-white text-[#213547] font-medium shadow-md flex items-center gap-2"
+              style={{
+                border: '2px solid transparent',
+                background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #FF8A00, #7A3AFF) border-box'
+              }}
             >
               {activeChain?.name && getNetworkIcon(activeChain.name)}
               <span>{activeChain?.name || 'Loading...'}</span>
