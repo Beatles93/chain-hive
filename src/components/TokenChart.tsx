@@ -103,9 +103,17 @@ export default function TokenChart() {
     );
   }
 
+
+
   return (
     <div className="w-full max-w-6xl mx-auto p-6">
-      <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
+      <div 
+        className="bg-white rounded-xl p-6 shadow-lg relative"
+        style={{
+          border: '2px solid transparent',
+          background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #FF8A00, #7A3AFF) border-box'
+        }}
+      >
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <div>
