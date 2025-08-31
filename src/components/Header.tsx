@@ -1,6 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import { ConnectWallet, useActiveChain, useSwitchChain } from "@thirdweb-dev/react";
-import type { Chain } from "@thirdweb-dev/chains"; 
+import type { Chain } from "@thirdweb-dev/chains";
+// Simple network icons using emojis
+const getNetworkIcon = (chainName: string) => {
+  switch (chainName.toLowerCase()) {
+    case 'ethereum mainnet':
+    case 'ethereum':
+      return <span className="text-lg">🔷</span>;
+    case 'polygon mainnet':
+    case 'polygon':
+      return <span className="text-lg">🟣</span>;
+    case 'base':
+      return <span className="text-lg">🔵</span>;
+    default:
+      return <span className="text-lg">⚫</span>;
+  }
+}; 
 
 interface HeaderProps {
   chains: Chain[];
@@ -11,6 +26,8 @@ const brand = {
   orange: '#FF8A00',
   purple: '#7A3AFF',
 }
+
+
 
 export default function Header({ chains }: HeaderProps) {
   const [open, setOpen] = useState(false);
@@ -56,9 +73,11 @@ export default function Header({ chains }: HeaderProps) {
           <div className="relative">
             <button
               onClick={() => setOpen(!open)}
-              className="px-4 py-2 border rounded-md bg-white text-[#213547] border-[#213547] font-medium shadow-md"
+              className="px-4 py-2 border rounded-md bg-white text-[#213547] border-[#213547] font-medium shadow-md flex items-center gap-2"
             >
-              {activeChain?.name || 'Loading...'} ▼
+              {activeChain?.name && getNetworkIcon(activeChain.name)}
+              <span>{activeChain?.name || 'Loading...'}</span>
+              <span>▼</span>
             </button>
 
             {open && (
@@ -76,7 +95,10 @@ export default function Header({ chains }: HeaderProps) {
                     }}
                     className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-100 text-left"
                   >
-                    <span className="flex-1">{chain.name}</span>
+                    <div className="flex items-center gap-2 flex-1">
+                      {getNetworkIcon(chain.name)}
+                      <span>{chain.name}</span>
+                    </div>
                     {chain.slug === activeChain?.slug && <span className="ml-2">✔️</span>}
                   </button>
                 ))}
