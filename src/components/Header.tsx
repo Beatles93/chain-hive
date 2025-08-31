@@ -62,7 +62,7 @@ export default function Header({ chains, activeChain, setActiveChain }: HeaderPr
             </button>
 
             {open && (
-              <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+              <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
                 {chains.map(chain => (
                   <button
                     key={chain.slug}
@@ -70,10 +70,10 @@ export default function Header({ chains, activeChain, setActiveChain }: HeaderPr
                       setActiveChain(chain);
                       setOpen(false);
                     }}
-                    className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-100"
+                    className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-100 text-left"
                   >
-                    <span>{chain.name}</span>
-                    {chain.slug === activeChain.slug && <span>✔️</span>}
+                    <span className="flex-1">{chain.name}</span>
+                    {chain.slug === activeChain.slug && <span className="ml-2">✔️</span>}
                   </button>
                 ))}
               </div>

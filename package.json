@@ -12,6 +12,7 @@
   "dependencies": {
     "@thirdweb-dev/react": "^4.9.4",
     "@thirdweb-dev/sdk": "^4.0.99",
+    "@web3icons/react": "^4.0.22",
     "ethers": "5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
