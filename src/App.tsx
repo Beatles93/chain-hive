@@ -3,14 +3,12 @@ import type { Chain } from "@thirdweb-dev/chains";
 
 interface AppProps {
   chains: Chain[];
-  activeChain: Chain;
-  setActiveChain: (chain: Chain) => void;
 }
 
-function App({ chains, activeChain, setActiveChain }: AppProps) {
+function App({ chains }: AppProps) {
   return (
     <div>
-      <Header chains={chains} activeChain={activeChain} setActiveChain={setActiveChain} />
+      <Header chains={chains} />
     </div>
   );
 }

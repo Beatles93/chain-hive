@@ -1,4 +1,4 @@
-import { StrictMode, useState } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
@@ -15,11 +15,8 @@ import { Ethereum, Polygon, Base } from "@thirdweb-dev/chains";
 const chains: Chain[] = [Ethereum, Polygon, Base];
 
 function Root() {
-  const [activeChain, setActiveChain] = useState<Chain>(Ethereum);
-
   return (
     <ThirdwebProvider
-      activeChain={activeChain}
       supportedChains={chains}
       theme="light"
       supportedWallets={[
@@ -29,7 +26,7 @@ function Root() {
         embeddedWallet(),
       ]}
     >
-      <App activeChain={activeChain} setActiveChain={setActiveChain} chains={chains} />
+      <App chains={chains} />
     </ThirdwebProvider>
   );
 }

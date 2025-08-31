@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectWallet, useActiveChain, useSwitchChain } from "@thirdweb-dev/react";
 import type { Chain } from "@thirdweb-dev/chains"; 
 
 interface HeaderProps {
   chains: Chain[];
-  activeChain: Chain;
-  setActiveChain: (chain: Chain) => void;
 }
 
 const brand = {
@@ -14,9 +12,11 @@ const brand = {
   purple: '#7A3AFF',
 }
 
-export default function Header({ chains, activeChain, setActiveChain }: HeaderProps) {
+export default function Header({ chains }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const activeChain = useActiveChain();
+  const switchChain = useSwitchChain();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -58,7 +58,7 @@ export default function Header({ chains, activeChain, setActiveChain }: HeaderPr
               onClick={() => setOpen(!open)}
               className="px-4 py-2 border rounded-md bg-white text-[#213547] border-[#213547] font-medium shadow-md"
             >
-              {activeChain.name} ▼
+              {activeChain?.name || 'Loading...'} ▼
             </button>
 
             {open && (
@@ -66,14 +66,18 @@ export default function Header({ chains, activeChain, setActiveChain }: HeaderPr
                 {chains.map(chain => (
                   <button
                     key={chain.slug}
-                    onClick={() => {
-                      setActiveChain(chain);
-                      setOpen(false);
+                    onClick={async () => {
+                      try {
+                        await switchChain(chain.chainId);
+                        setOpen(false);
+                      } catch (error) {
+                        console.error('Failed to switch chain:', error);
+                      }
                     }}
                     className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-100 text-left"
                   >
                     <span className="flex-1">{chain.name}</span>
-                    {chain.slug === activeChain.slug && <span className="ml-2">✔️</span>}
+                    {chain.slug === activeChain?.slug && <span className="ml-2">✔️</span>}
                   </button>
                 ))}
               </div>
