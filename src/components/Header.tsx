@@ -111,11 +111,17 @@ export default function Header({ chains }: HeaderProps) {
           </div>
 
           {/* Connect button */}
-          <ConnectWallet
+         <ConnectWallet
             theme="light"
             btnTitle="Connect"
-            className="px-6 py-2 rounded-lg font-semibold shadow-md bg-white text-[#213547] border-4 border-[#213547]"
-          />
+            className="px-6 py-2 rounded-md font-semibold shadow-md bg-white text-[#213547]"
+            style={{
+             border: '2px solid transparent',
+             background:
+            'linear-gradient(white, white) padding-box, linear-gradient(90deg, #FF8A00, #7A3AFF) border-box',
+  }}
+/>
+
         </div>
       </div>
 
