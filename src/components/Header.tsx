@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { ConnectWallet, useActiveChain, useSwitchChain } from "@thirdweb-dev/react";
 import type { Chain } from "@thirdweb-dev/chains";
-// Simple network icons using emojis
+
 const getNetworkIcon = (chainName: string) => {
   switch (chainName.toLowerCase()) {
     case 'ethereum mainnet':
@@ -25,9 +25,7 @@ const brand = {
   navy: '#0F2A4A',
   orange: '#FF8A00',
   purple: '#7A3AFF',
-}
-
-
+};
 
 export default function Header({ chains }: HeaderProps) {
   const [open, setOpen] = useState(false);
@@ -67,8 +65,18 @@ export default function Header({ chains }: HeaderProps) {
           </a>
         </div>
 
-        {/* Right: network switch + connect button */}
+        {/* Right side */}
         <div className="flex items-center ml-auto gap-4 relative" ref={dropdownRef}>
+          {/* Wallet icon link */}
+          <a href="/wallet" aria-label="My Wallet">
+            <img
+              src="/assets/walletRgb.png"
+              alt="Wallet"
+              className="block"
+              style={{ width: 36, height: 36, objectFit: 'contain' }}
+            />
+          </a>
+
           {/* Network dropdown */}
           <div className="relative">
             <button
@@ -111,17 +119,15 @@ export default function Header({ chains }: HeaderProps) {
           </div>
 
           {/* Connect button */}
-         <ConnectWallet
+          <ConnectWallet
             theme="light"
             btnTitle="Connect"
             className="px-6 py-2 rounded-md font-semibold shadow-md bg-white text-[#213547]"
             style={{
-             border: '2px solid transparent',
-             background:
-            'linear-gradient(white, white) padding-box, linear-gradient(90deg, #FF8A00, #7A3AFF) border-box',
-  }}
-/>
-
+              border: '2px solid transparent',
+              background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #FF8A00, #7A3AFF) border-box',
+            }}
+          />
         </div>
       </div>
 

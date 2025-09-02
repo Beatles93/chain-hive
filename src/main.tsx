@@ -11,6 +11,7 @@ import {
 } from "@thirdweb-dev/react";
 import type { Chain } from "@thirdweb-dev/chains"; 
 import { Ethereum, Polygon, Base } from "@thirdweb-dev/chains"; 
+import { BrowserRouter } from "react-router-dom"; 
 
 const chains: Chain[] = [Ethereum, Polygon, Base];
 
@@ -26,7 +27,9 @@ function Root() {
         embeddedWallet(),
       ]}
     >
-      <App chains={chains} />
+      <BrowserRouter> 
+        <App chains={chains} />
+      </BrowserRouter>
     </ThirdwebProvider>
   );
 }
