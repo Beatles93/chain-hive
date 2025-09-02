@@ -47,7 +47,7 @@ export default function Header({ chains }: HeaderProps) {
     <header
       className="sticky top-0 z-50 w-full bg-white relative"
       style={{
-        height: 70,
+        height: 72,
         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         borderBottom: '2px solid #e5e7eb'
       }}
@@ -57,7 +57,7 @@ export default function Header({ chains }: HeaderProps) {
         <div className="flex items-center">
           <a href="/" className="flex items-center" aria-label="Chain Hive home">
             <img
-              src="/assets/logo.svg"
+              src="/assets/logo.png"
               alt="Chain Hive logo"
               className="block shrink-0"
               style={{ width: 70, height: 70, objectFit: 'contain' }}
