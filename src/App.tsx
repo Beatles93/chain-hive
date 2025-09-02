@@ -1,8 +1,10 @@
 import Header from './components/Header';
 import TokenChart from './components/TokenChart';
+
 import type { Chain } from "@thirdweb-dev/chains";
 import { Routes, Route } from "react-router-dom";
 import WalletPage from './components/pages/WalletPage';    
+import AllCoinsTable from './components/CryptoMarketTable';
 
 interface AppProps {
   chains: Chain[];
@@ -17,6 +19,7 @@ function App({ chains }: AppProps) {
           <Route path="/" element={<TokenChart />} />
           <Route path="/wallet" element={<WalletPage />} />
         </Routes>
+        <AllCoinsTable />
       </main>
     </div>
   );
