@@ -231,26 +231,50 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
             </tbody>
           </table>
         </div>
+{/* Pagination */}
+<div className="flex justify-center items-center mt-4 gap-2 max-w-6xl mx-auto">
+  <button
+    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+    disabled={page === 1}
+    className={`relative px-4 py-2 font-medium text-gray-700 rounded-lg overflow-hidden transition-all duration-200
+      bg-white
+      before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
+      before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100
+      disabled:opacity-50 disabled:cursor-not-allowed`}
+    style={{
+      border: "2px solid transparent",
+      backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
+      backgroundOrigin: "padding-box, border-box",
+      backgroundClip: "padding-box, border-box",
+    }}
+  >
+    <span className="relative z-10">Previous</span>
+  </button>
 
-        {/* Pagination */}
-        <div className="flex justify-center items-center mt-4 gap-2 max-w-6xl mx-auto">
-          <button
-            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-            disabled={page === 1}
-            className="px-4 py-2 font-medium text-gray-700 bg-white border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 rounded-lg hover:text-white"
-          >
-            Previous
-          </button>
+  <span className="px-3 py-2 text-gray-700 font-medium">{page}</span>
 
-          <span className="px-3 py-2 text-gray-700 font-medium">{page}</span>
+  <button
+    onClick={() => setPage((prev) => prev + 1)}
+    className={`relative px-4 py-2 font-medium text-gray-700 rounded-lg overflow-hidden transition-all duration-200
+      bg-white
+      before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
+      before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100`}
+    style={{
+      border: "2px solid transparent",
+      backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
+      backgroundOrigin: "padding-box, border-box",
+      backgroundClip: "padding-box, border-box",
+    }}
+  >
+    <span className="relative z-10">Next</span>
+  </button>
+</div>
 
-          <button
-            onClick={() => setPage((prev) => prev + 1)}
-            className="px-4 py-2 font-medium text-gray-700 bg-white border border-gray-300 transition-all duration-200 rounded-lg hover:text-white"
-          >
-            Next
-          </button>
-        </div>
+
+
+
+
+
       </div>
     </div>
   );
