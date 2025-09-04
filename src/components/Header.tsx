@@ -38,18 +38,23 @@ export default function Header({ chains, favoritesCount, onToggleFavorites, show
         </a>
 
         <div className="flex items-center gap-4">
-          {/* Favorite button */}
-          <button
+{/* Favorite button */}
+<button
   onClick={onToggleFavorites}
-  className="px-4 py-2 rounded-md bg-white text-[#213547] font-medium shadow-md flex items-center gap-1"
+  className="relative px-4 py-2 rounded-md bg-white text-[#213547] font-medium shadow-md flex items-center gap-1 overflow-hidden transition-all duration-200
+    before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
+    before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100"
   style={{
-    border: '2px solid transparent',
-    background: 'linear-gradient(white, white) padding-box, linear-gradient(90deg, #FF8A00, #7A3AFF) border-box'
+    border: "2px solid transparent",
+    backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
+    backgroundOrigin: "padding-box, border-box",
+    backgroundClip: "padding-box, border-box",
   }}
 >
-  ⭐ {showFavoritesOnly ? 'Favorites On' : 'Favorites'} ({favoritesCount})
+  <span className="relative z-10">
+    ⭐ {showFavoritesOnly ? 'Favorites On' : 'Favorites'} ({favoritesCount})
+  </span>
 </button>
-
 
           {/* Wallet icon */}
           <a href="/wallet">

@@ -269,12 +269,6 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
     <span className="relative z-10">Next</span>
   </button>
 </div>
-
-
-
-
-
-
       </div>
     </div>
   );
