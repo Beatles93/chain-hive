@@ -1,0 +1,24 @@
+{
+    "title": {
+      "allCoins": "Top Cryptocurrencies",
+      "favorites": "Favorites"
+    },
+    "columns": {
+      "coin": "Coin",
+      "price": "Price",
+      "hour1": "1h",
+      "hour24": "24h",
+      "day7": "7d",
+      "volume24": "24h Volume",
+      "marketCap": "Market Cap",
+      "last7Days": "Last 7 Days",
+      "favorite": "⭐"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "loading": "Loading...",
+    "error": "Failed to load coins"
+  }
+  

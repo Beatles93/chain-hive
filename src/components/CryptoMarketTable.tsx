@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ResponsiveContainer, AreaChart, Area, Tooltip, CartesianGrid } from "recharts";
 import axios from "axios";
 import { useFavoritesStore } from "./store/favorites";
+import { useTranslation } from "react-i18next";
 
 interface CoinData {
   id: string;
@@ -31,6 +32,7 @@ interface AllCoinsTableProps {
 }
 
 export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps) {
+  const { t } = useTranslation();
   const [coins, setCoins] = useState<CoinData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +68,7 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
       setCoins(response.data);
     } catch (err) {
       console.error(err);
-      setError("Failed to load coins");
+      setError(t("error"));
     } finally {
       setLoading(false);
     }
@@ -94,7 +96,7 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
     );
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading) return <div className="p-6">{t("loading")}</div>;
   if (error) return <div className="p-6 text-red-500">{error}</div>;
 
   const renderHeader = (label: string, key?: SortKey) => (
@@ -130,22 +132,22 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
         }}
       >
         <h2 className="text-2xl font-bold text-gray-900 mb-4">
-          {showFavoritesOnly ? "Favorites" : "Top Cryptocurrencies"}
+          {showFavoritesOnly ? t("title.favorites") : t("title.allCoins")}
         </h2>
 
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200 rounded-lg">
             <thead className="bg-gray-50">
               <tr>
-                <th className="p-3 text-center text-sm font-medium">⭐</th>
-                {renderHeader("Coin", "name")}
-                {renderHeader("Price", "current_price")}
-                {renderHeader("1h", "price_change_percentage_1h_in_currency")}
-                {renderHeader("24h", "price_change_percentage_24h_in_currency")}
-                {renderHeader("7d", "price_change_percentage_7d_in_currency")}
-                {renderHeader("24h Volume", "total_volume")}
-                {renderHeader("Market Cap", "market_cap")}
-                <th className="p-3 text-center text-sm font-medium">Last 7 Days</th>
+                <th className="p-3 text-center text-sm font-medium">{t("columns.favorite")}</th>
+                {renderHeader(t("columns.coin"), "name")}
+                {renderHeader(t("columns.price"), "current_price")}
+                {renderHeader(t("columns.hour1"), "price_change_percentage_1h_in_currency")}
+                {renderHeader(t("columns.hour24"), "price_change_percentage_24h_in_currency")}
+                {renderHeader(t("columns.day7"), "price_change_percentage_7d_in_currency")}
+                {renderHeader(t("columns.volume24"), "total_volume")}
+                {renderHeader(t("columns.marketCap"), "market_cap")}
+                <th className="p-3 text-center text-sm font-medium">{t("columns.last7Days")}</th>
               </tr>
             </thead>
             <tbody>
@@ -188,7 +190,7 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
                             </linearGradient>
                           </defs>
                           <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 3" vertical={false} horizontal={false} />
-                          <Tooltip formatter={(value: number) => [`$${value.toLocaleString()}`, "Price"]} />
+                          <Tooltip formatter={(value: number) => [`$${value.toLocaleString()}`, t("columns.price")]} />
                           <Area type="monotone" dataKey="price" stroke="#4f46e5" fill={`url(#grad-${coin.id})`} strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
@@ -216,7 +218,7 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
               backgroundClip: "padding-box, border-box",
             }}
           >
-            <span className="relative z-10">Previous</span>
+            <span className="relative z-10">{t("pagination.previous")}</span>
           </button>
 
           <span className="px-3 py-2 text-gray-700 font-medium">{page}</span>
@@ -233,11 +235,10 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
               backgroundClip: "padding-box, border-box",
             }}
           >
-            <span className="relative z-10">Next</span>
+            <span className="relative z-10">{t("pagination.next")}</span>
           </button>
         </div>
       </div>
     </div>
   );
 }
-
