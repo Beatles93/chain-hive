@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import axios from 'axios';
+import { useTranslation } from "react-i18next";
 
 interface ChartDataPoint {
   date: string;
@@ -18,6 +19,7 @@ const tokens = [
 ];
 
 export default function TokenChart() {
+  const { t } = useTranslation("tokenChart");
   const [selectedToken, setSelectedToken] = useState('bitcoin');
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
@@ -36,32 +38,24 @@ export default function TokenChart() {
       const response = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${selectedToken}/market_chart`,
         {
-          params: {
-            vs_currency: 'usd',
-            days: '7'
-          },
+          params: { vs_currency: 'usd', days: '7' },
           timeout: 15000,
-          headers: {
-            'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (compatible; ChainHive/1.0)'
-          }
+          headers: { 'Accept': 'application/json' },
         }
       );
 
       const prices = response.data.prices;
-      
-      // Transform data for Recharts
       const transformedData = prices.map((price: [number, number]) => ({
         date: new Date(price[0]).toLocaleDateString(),
-        price: price[1]
+        price: price[1],
       }));
-      
+
       setChartData(transformedData);
       setCurrentPrice(prices[prices.length - 1][1]);
     } catch (err) {
-      console.error('Error fetching token data:', err);
-      
-      // Fallback to mock data for demonstration
+      console.error(err);
+      setError(t("fetchError"));
+      // fallback
       const mockData = [
         { date: '2024-01-01', price: 45000 },
         { date: '2024-01-02', price: 46000 },
@@ -69,9 +63,8 @@ export default function TokenChart() {
         { date: '2024-01-04', price: 47000 },
         { date: '2024-01-05', price: 48000 },
         { date: '2024-01-06', price: 46500 },
-        { date: '2024-01-07', price: 47500 }
+        { date: '2024-01-07', price: 47500 },
       ];
-      
       setChartData(mockData);
       setCurrentPrice(47500);
     } finally {
@@ -79,31 +72,25 @@ export default function TokenChart() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-96 bg-white rounded-lg border border-gray-200">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+  if (loading) return (
+    <div className="flex items-center justify-center h-96 bg-white rounded-lg border border-gray-200">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="flex items-center justify-center h-96 bg-white rounded-lg border border-gray-200">
+      <div className="text-red-500 text-center">
+        <p className="text-lg font-semibold">{error}</p>
+        <button 
+          onClick={fetchTokenData}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          {t("tryAgain")}
+        </button>
       </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-96 bg-white rounded-lg border border-gray-200">
-        <div className="text-red-500 text-center">
-          <p className="text-lg font-semibold">{error}</p>
-          <button 
-            onClick={fetchTokenData}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-
+    </div>
+  );
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6">
@@ -117,10 +104,10 @@ export default function TokenChart() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Crypto Market Overview</h2>
-            <p className="text-gray-600">7-day price chart for top cryptocurrencies</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("title")}</h2>
+            <p className="text-gray-600">{t("subtitle")}</p>
           </div>
-          
+
           {/* Token Selector */}
           <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
             {tokens.map((token) => (
@@ -151,25 +138,17 @@ export default function TokenChart() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                <XAxis 
-                  dataKey="date" 
-                  stroke="#6B7280"
-                  fontSize={12}
-                />
-                <YAxis 
-                  stroke="#6B7280"
-                  fontSize={12}
-                  tickFormatter={(value) => `$${value.toLocaleString()}`}
-                />
+                <XAxis dataKey="date" stroke="#6B7280" fontSize={12}/>
+                <YAxis stroke="#6B7280" fontSize={12} tickFormatter={(value) => `$${value.toLocaleString()}`} />
                 <Tooltip 
                   contentStyle={{
                     backgroundColor: 'white',
                     border: '1px solid #E5E7EB',
                     borderRadius: '8px',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    boxShadow: '0 4px 6px -1 rgba(0,0,0,0.1)'
                   }}
-                  formatter={(value: number) => [`$${value.toLocaleString()}`, 'Price']}
-                  labelFormatter={(label) => `Date: ${label}`}
+                  formatter={(value: number) => [`$${value.toLocaleString()}`, t("price")]}
+                  labelFormatter={(label) => `${t("date")}: ${label}`}
                 />
                 <Area 
                   type="monotone" 
@@ -183,7 +162,7 @@ export default function TokenChart() {
             </ResponsiveContainer>
           ) : (
             <div className="flex items-center justify-center h-96">
-              <p className="text-gray-500">No chart data available</p>
+              <p className="text-gray-500">{t("noData")}</p>
             </div>
           )}
         </div>
@@ -192,13 +171,11 @@ export default function TokenChart() {
         {currentPrice > 0 && (
           <div className="mt-4 flex justify-between items-center text-gray-700">
             <div>
-              <span className="text-sm text-gray-600">Current Price: </span>
-              <span className="text-lg font-bold text-gray-900">
-                ${currentPrice.toFixed(2)}
-              </span>
+              <span className="text-sm text-gray-600">{t("currentPrice")}: </span>
+              <span className="text-lg font-bold text-gray-900">${currentPrice.toFixed(2)}</span>
             </div>
             <div className="text-right">
-              <span className="text-sm text-gray-600">Data from: </span>
+              <span className="text-sm text-gray-600">{t("dataFrom")}: </span>
               <span className="text-sm text-blue-600">CoinGecko</span>
             </div>
           </div>

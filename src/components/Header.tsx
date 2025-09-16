@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ConnectWallet, useActiveChain, useSwitchChain } from "@thirdweb-dev/react";
 import type { Chain } from "@thirdweb-dev/chains";
+import { useTranslation } from "react-i18next";
 
 interface HeaderProps {
   chains: Chain[];
@@ -28,6 +29,7 @@ export default function Header({ chains, favoritesCount, onToggleFavorites, show
   const [openChainDropdown, setOpenChainDropdown] = useState(false);
   const activeChain = useActiveChain();
   const switchChain = useSwitchChain();
+  const { t } = useTranslation("header");
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-md border-b border-gray-200">
@@ -38,27 +40,27 @@ export default function Header({ chains, favoritesCount, onToggleFavorites, show
         </a>
 
         <div className="flex items-center gap-4">
-{/* Favorite button */}
-<button
-  onClick={onToggleFavorites}
-  className="relative px-4 py-2 rounded-md bg-white text-[#213547] font-medium shadow-md flex items-center gap-1 overflow-hidden transition-all duration-200
-    before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
-    before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100"
-  style={{
-    border: "2px solid transparent",
-    backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
-    backgroundOrigin: "padding-box, border-box",
-    backgroundClip: "padding-box, border-box",
-  }}
->
-  <span className="relative z-10">
-    ⭐ {showFavoritesOnly ? 'Favorites On' : 'Favorites'} ({favoritesCount})
-  </span>
-</button>
+          {/* Favorite button */}
+          <button
+            onClick={onToggleFavorites}
+            className="relative px-4 py-2 rounded-md bg-white text-[#213547] font-medium shadow-md flex items-center gap-1 overflow-hidden transition-all duration-200
+              before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
+              before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100"
+            style={{
+              border: "2px solid transparent",
+              backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
+              backgroundOrigin: "padding-box, border-box",
+              backgroundClip: "padding-box, border-box",
+            }}
+          >
+            <span className="relative z-10">
+              ⭐ {showFavoritesOnly ? t("favoritesOn") : t("favorites")} ({favoritesCount})
+            </span>
+          </button>
 
           {/* Wallet icon */}
           <a href="/wallet">
-            <img src="/assets/walletRgb.png" alt="Wallet" className="w-9 h-9 object-contain" />
+            <img src="/assets/walletRgb.png" alt={t("wallet")} className="w-9 h-9 object-contain" />
           </a>
 
           {/* Network dropdown */}
@@ -72,7 +74,7 @@ export default function Header({ chains, favoritesCount, onToggleFavorites, show
               }}
             >
               {activeChain?.name && getNetworkIcon(activeChain.name)}
-              <span>{activeChain?.name || 'Loading...'}</span>
+              <span>{activeChain?.name || t("loading")}</span>
               <span>▼</span>
             </button>
             {openChainDropdown && (
@@ -94,7 +96,7 @@ export default function Header({ chains, favoritesCount, onToggleFavorites, show
           {/* Connect wallet */}
           <ConnectWallet
             theme="light"
-            btnTitle="Connect"
+            btnTitle={t("connect")}
             className="px-6 py-2 rounded-md font-semibold shadow-md bg-white text-[#213547]"
             style={{
               border: '2px solid transparent',
@@ -106,6 +108,5 @@ export default function Header({ chains, favoritesCount, onToggleFavorites, show
     </header>
   );
 }
-
 
 

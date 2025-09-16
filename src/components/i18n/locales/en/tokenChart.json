@@ -1,0 +1,12 @@
+{
+    "title": "Crypto Market Overview",
+    "subtitle": "7-day price chart for top cryptocurrencies",
+    "price": "Price",
+    "date": "Date",
+    "noData": "No chart data available",
+    "currentPrice": "Current Price",
+    "dataFrom": "Data from",
+    "fetchError": "Failed to load token data",
+    "tryAgain": "Try Again"
+  }
+  
