@@ -94,13 +94,30 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
     );
   };
 
-  const renderSortArrow = (key: SortKey) => {
-    if (hoveredKey === key) return sortDirection === "asc" ? "▲" : "▼";
-    return null;
-  };
-
   if (loading) return <div className="p-6">Loading...</div>;
   if (error) return <div className="p-6 text-red-500">{error}</div>;
+
+  const renderHeader = (label: string, key?: SortKey) => (
+    <th
+      className="p-3 text-sm font-medium cursor-pointer select-none"
+      onMouseEnter={() => key && setHoveredKey(key)}
+      onMouseLeave={() => setHoveredKey(null)}
+      onClick={() => key && handleSort(key)}
+    >
+      <span className="inline-flex items-center gap-1">
+        {label}
+        {key && (
+          <span
+            className={`transition-opacity duration-200 ${
+              hoveredKey === key ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {sortDirection === "asc" ? "▲" : "▼"}
+          </span>
+        )}
+      </span>
+    </th>
+  );
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6">
@@ -120,64 +137,15 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
           <table className="min-w-full bg-white border border-gray-200 rounded-lg">
             <thead className="bg-gray-50">
               <tr>
-                <th className="p-3 text-center">⭐</th>
-                <th
-                  className="p-3 text-left cursor-pointer"
-                  onMouseEnter={() => setHoveredKey("name")}
-                  onMouseLeave={() => setHoveredKey(null)}
-                  onClick={() => handleSort("name")}
-                >
-                  Coin {renderSortArrow("name")}
-                </th>
-                <th
-                  className="p-3 text-right cursor-pointer"
-                  onMouseEnter={() => setHoveredKey("current_price")}
-                  onMouseLeave={() => setHoveredKey(null)}
-                  onClick={() => handleSort("current_price")}
-                >
-                  Price {renderSortArrow("current_price")}
-                </th>
-                <th
-                  className="p-3 text-right cursor-pointer"
-                  onMouseEnter={() => setHoveredKey("price_change_percentage_1h_in_currency")}
-                  onMouseLeave={() => setHoveredKey(null)}
-                  onClick={() => handleSort("price_change_percentage_1h_in_currency")}
-                >
-                  1h {renderSortArrow("price_change_percentage_1h_in_currency")}
-                </th>
-                <th
-                  className="p-3 text-right cursor-pointer"
-                  onMouseEnter={() => setHoveredKey("price_change_percentage_24h_in_currency")}
-                  onMouseLeave={() => setHoveredKey(null)}
-                  onClick={() => handleSort("price_change_percentage_24h_in_currency")}
-                >
-                  24h {renderSortArrow("price_change_percentage_24h_in_currency")}
-                </th>
-                <th
-                  className="p-3 text-right cursor-pointer"
-                  onMouseEnter={() => setHoveredKey("price_change_percentage_7d_in_currency")}
-                  onMouseLeave={() => setHoveredKey(null)}
-                  onClick={() => handleSort("price_change_percentage_7d_in_currency")}
-                >
-                  7d {renderSortArrow("price_change_percentage_7d_in_currency")}
-                </th>
-                <th
-                  className="p-3 text-right cursor-pointer"
-                  onMouseEnter={() => setHoveredKey("total_volume")}
-                  onMouseLeave={() => setHoveredKey(null)}
-                  onClick={() => handleSort("total_volume")}
-                >
-                  24h Volume {renderSortArrow("total_volume")}
-                </th>
-                <th
-                  className="p-3 text-right cursor-pointer"
-                  onMouseEnter={() => setHoveredKey("market_cap")}
-                  onMouseLeave={() => setHoveredKey(null)}
-                  onClick={() => handleSort("market_cap")}
-                >
-                  Market Cap {renderSortArrow("market_cap")}
-                </th>
-                <th className="p-3 text-center">Last 7 Days</th>
+                <th className="p-3 text-center text-sm font-medium">⭐</th>
+                {renderHeader("Coin", "name")}
+                {renderHeader("Price", "current_price")}
+                {renderHeader("1h", "price_change_percentage_1h_in_currency")}
+                {renderHeader("24h", "price_change_percentage_24h_in_currency")}
+                {renderHeader("7d", "price_change_percentage_7d_in_currency")}
+                {renderHeader("24h Volume", "total_volume")}
+                {renderHeader("Market Cap", "market_cap")}
+                <th className="p-3 text-center text-sm font-medium">Last 7 Days</th>
               </tr>
             </thead>
             <tbody>
@@ -194,22 +162,22 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
                         {isFavorite(coin.id) ? "⭐" : "☆"}
                       </button>
                     </td>
-                    <td className="p-3 flex items-center gap-2">
+                    <td className="p-3 flex items-center gap-2 text-sm">
                       <img src={coin.image} alt={coin.name} className="w-5 h-5" />
                       {coin.name} ({coin.symbol.toUpperCase()})
                     </td>
-                    <td className="p-3 text-right">${coin.current_price.toLocaleString()}</td>
-                    <td className={`p-3 text-right ${getColor(coin.price_change_percentage_1h_in_currency)}`}>
+                    <td className="p-3 text-right text-sm">${coin.current_price.toLocaleString()}</td>
+                    <td className={`p-3 text-right text-sm ${getColor(coin.price_change_percentage_1h_in_currency)}`}>
                       {coin.price_change_percentage_1h_in_currency?.toFixed(2)}%
                     </td>
-                    <td className={`p-3 text-right ${getColor(coin.price_change_percentage_24h_in_currency)}`}>
+                    <td className={`p-3 text-right text-sm ${getColor(coin.price_change_percentage_24h_in_currency)}`}>
                       {coin.price_change_percentage_24h_in_currency?.toFixed(2)}%
                     </td>
-                    <td className={`p-3 text-right ${getColor(coin.price_change_percentage_7d_in_currency)}`}>
+                    <td className={`p-3 text-right text-sm ${getColor(coin.price_change_percentage_7d_in_currency)}`}>
                       {coin.price_change_percentage_7d_in_currency?.toFixed(2)}%
                     </td>
-                    <td className="p-3 text-right">${coin.total_volume.toLocaleString()}</td>
-                    <td className="p-3 text-right">${coin.market_cap.toLocaleString()}</td>
+                    <td className="p-3 text-right text-sm">${coin.total_volume.toLocaleString()}</td>
+                    <td className="p-3 text-right text-sm">${coin.market_cap.toLocaleString()}</td>
                     <td className="p-3 w-40 h-16">
                       <ResponsiveContainer width="100%" height={50}>
                         <AreaChart data={chartData}>
@@ -231,45 +199,45 @@ export default function AllCoinsTable({ showFavoritesOnly }: AllCoinsTableProps)
             </tbody>
           </table>
         </div>
-{/* Pagination */}
-<div className="flex justify-center items-center mt-4 gap-2 max-w-6xl mx-auto">
-  <button
-    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-    disabled={page === 1}
-    className={`relative px-4 py-2 font-medium text-gray-700 rounded-lg overflow-hidden transition-all duration-200
-      bg-white
-      before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
-      before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100
-      disabled:opacity-50 disabled:cursor-not-allowed`}
-    style={{
-      border: "2px solid transparent",
-      backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
-      backgroundOrigin: "padding-box, border-box",
-      backgroundClip: "padding-box, border-box",
-    }}
-  >
-    <span className="relative z-10">Previous</span>
-  </button>
 
-  <span className="px-3 py-2 text-gray-700 font-medium">{page}</span>
+        {/* Pagination */}
+        <div className="flex justify-center items-center mt-4 gap-2 max-w-6xl mx-auto">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className="relative px-4 py-2 font-medium text-gray-700 rounded-lg overflow-hidden transition-all duration-200
+              bg-white before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
+              before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100
+              disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              border: "2px solid transparent",
+              backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
+              backgroundOrigin: "padding-box, border-box",
+              backgroundClip: "padding-box, border-box",
+            }}
+          >
+            <span className="relative z-10">Previous</span>
+          </button>
 
-  <button
-    onClick={() => setPage((prev) => prev + 1)}
-    className={`relative px-4 py-2 font-medium text-gray-700 rounded-lg overflow-hidden transition-all duration-200
-      bg-white
-      before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
-      before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100`}
-    style={{
-      border: "2px solid transparent",
-      backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
-      backgroundOrigin: "padding-box, border-box",
-      backgroundClip: "padding-box, border-box",
-    }}
-  >
-    <span className="relative z-10">Next</span>
-  </button>
-</div>
+          <span className="px-3 py-2 text-gray-700 font-medium">{page}</span>
+
+          <button
+            onClick={() => setPage((prev) => prev + 1)}
+            className="relative px-4 py-2 font-medium text-gray-700 rounded-lg overflow-hidden transition-all duration-200
+              bg-white before:absolute before:-inset-1 before:bg-gradient-to-r before:from-[#FF8A00] before:to-[#7A3AFF]
+              before:opacity-0 before:transition-opacity before:duration-200 hover:before:opacity-100"
+            style={{
+              border: "2px solid transparent",
+              backgroundImage: "linear-gradient(white, white), linear-gradient(90deg, #FF8A00, #7A3AFF)",
+              backgroundOrigin: "padding-box, border-box",
+              backgroundClip: "padding-box, border-box",
+            }}
+          >
+            <span className="relative z-10">Next</span>
+          </button>
+        </div>
       </div>
     </div>
   );
 }
+
